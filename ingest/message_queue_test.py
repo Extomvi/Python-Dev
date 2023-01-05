@@ -41,6 +41,6 @@ def test_get_error_returns_stop(queue_wrapper):
 def test_draining(queue_wrapper):
     assert queue_wrapper.is_writable
     assert queue_wrapper.empty
-    queue_wrapper.prevent_writes()
+    queue_wrapper.preventive_writes()
     assert not queue_wrapper.is_writable
     assert queue_wrapper.is_drained

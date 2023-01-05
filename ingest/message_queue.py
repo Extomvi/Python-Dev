@@ -14,7 +14,7 @@ class QueueWrapper(object):
     def __init__(self, name: str, q: Queue = None, preventive_writes: Event = None):
         self.name: str = name
         self.q: Queue = q or Queue()
-        self.prevent_writes: Event = preventive_writes or Event()
+        self._preventive_writes: Event = preventive_writes or Event()
 
     def get(self) -> Any:
         if self.is_drained:
@@ -35,18 +35,18 @@ class QueueWrapper(object):
         for obj in objs:
             self.put(obj)
 
-    def prevent_writes(self):
-        log.debug('preventing writes to the {self.name} queue')
-        self._prevent_writes.set()
+    def preventive_writes(self):
+        log.debug(f'preventing writes to the {self.name} queue')
+        self._preventive_writes.set()
 
     @property
-    def is_writable(self):
-        return not self._prevent_writes.is_set()
+    def is_writable(self) -> bool:
+        return not self._preventive_writes.is_set()
     @property
-    def is_drained(self):
+    def is_drained(self) -> bool:
         return not self.is_writable and self.empty
     @property
-    def empty(self):
+    def empty(self) -> bool:
         return self.q.empty()
 
 class QueueManager(BaseManager):
