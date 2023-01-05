@@ -1,5 +1,6 @@
 """
 Module to help with drainable multiprocess aware message queue
+The QueueWrapper passes messages between processes
 """
 
 from multiprocessing import Event, Queue
