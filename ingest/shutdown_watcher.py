@@ -2,8 +2,7 @@
 Module that provides a method for blocking until an OS signal is sent
 """
 
-import signal
-import time
+import signal, time
 from .debugging import app_logger as log
 
 class ShutdownWatcher:
