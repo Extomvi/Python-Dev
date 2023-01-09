@@ -9,11 +9,14 @@ from pydantic import BaseModel
 
 class Post(BaseModel):
     '''Post method is used to store content from the front-end'''
-    def __init__(__pydantic_self__, **data: Any) -> None:
-        super().__init__(**data)
+    content: str # Required
+    publication: str # Required
 
 class ProcessedPost(BaseModel):
     '''ProcessedPost is used to store results of the DataProcessor'''
+    publication: str
+    entities: Counter = Counter()
+    articles: int = 0
 
     @property
     def pub_key(self) -> str:
