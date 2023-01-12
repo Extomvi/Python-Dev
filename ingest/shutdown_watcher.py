@@ -3,6 +3,7 @@ Module that provides a method for blocking until an OS signal is sent
 """
 
 import signal, time
+from typing import Callable, List
 from .debugging import app_logger as log
 
 class ShutdownWatcher:
@@ -19,7 +20,7 @@ class ShutdownWatcher:
     def __init__(self) -> None:
         self.should_continue = True
 
-        for s in [signal.SIGTERM, signal.SIGINT]:
+        for s in [signal.SIGINT, signal.SIGTERM]:
             signal.signal(s, self.exit)
 
     def __enter__(self):
