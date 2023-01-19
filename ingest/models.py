@@ -25,5 +25,5 @@ class ProcessedPost(BaseModel):
     def transform_for_database(self, top_n=2000) -> List[Tuple[str, str, str, Dict]]:
         return None
 
-    def __add__(self, other) -> ProcessedPost:
+    def __add__(self, other):
         return self
