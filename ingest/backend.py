@@ -83,6 +83,7 @@ class Saver(Process):
         self.q: QueueWrapper = q
         self.client = client
         self.persist_fn = persist_fn
+        super(Saver, self).__init__()
 
     def shutdown(self, *args):
         log.info("shutting down server")
@@ -151,7 +152,7 @@ def main():
     if args.no_persistence:
         persistable = (None, persist_no_op)
     else:
-        persistable (get_database_client(), persist)
+        persistable = (get_database_client(), persist)
 
     # setup the input queue, aggregate queue and output queue
     iq = QueueWrapper(name="iqueue")
