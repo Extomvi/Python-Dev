@@ -99,6 +99,7 @@ def start_processes(proc_num: int, proc: Process, proc_args: List[object]) -> Li
     log.info(f"initializing {proc_num} worker processe(s)")
     procs = [proc(*proc_args) for _ in range(proc_num)]
     for p in procs:
+        breakpoint()
         p.start()
     return procs
 
