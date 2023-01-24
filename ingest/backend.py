@@ -91,7 +91,7 @@ class Saver(Process):
 
     def run(self):
         signal.signal(signal.SIGTERM, self.shutdown)
-        for msg in iter(self.iq.get(), 'STOP'):
+        for msg in iter(self.q.get(), 'STOP'):
             self.persist_fn(self.client, *msg)
         exit(0)
 
