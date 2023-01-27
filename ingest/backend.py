@@ -35,6 +35,8 @@ class Worker:
     def __init__(self, inq: QueueWrapper, outq: QueueWrapper, cache_size: int = 25_000):
         self.iq: QueueWrapper = inq     #iq -> input queue
         self.oq: QueueWrapper = outq    #oq -> output queue
+        self._cache_size: int = cache_size
+        self.reset_cache()
         super(Worker, self).__init__()
 
     def shutdown(self, *args):
@@ -69,6 +71,7 @@ class Worker:
         processor = DataProcessor()
         # self.iq.get() is a blocking call that will repeatedly call get and wait for an object to be pulled from the queue until the get call returns the sentinel 'STOP'
         for msg in iter(self.iq.get(), 'STOP'):
+            log.info(msg)
             self.oq.put(processor.process(msg))
         # leaving the process wtth a status code of 0, if all went well.
         exit(0)
@@ -169,6 +172,8 @@ def main():
 
     # Stop/ shut down handler to gracefully shutdown the processes
     register_shutdown_handlers([iq, oq], [iproc_num, oproc_num])
+
+    iq.put("Tommy has #1000000 for a new Apple product")
 
     with ShutdownWatcher as watcher:
         watcher.serve_forever()
